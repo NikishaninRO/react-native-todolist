@@ -20,7 +20,6 @@ function AddTodo({onSubmit}) {
         placeholder="Введите название дела"
         onChangeText={setValue}
         value={value}
-        keyboardType="numeric"
       />
       <Button title="Добавить" onPress={pressHandler} />
     </View>

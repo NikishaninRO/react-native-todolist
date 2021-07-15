@@ -1,37 +1,18 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView, Text, FlatList} from 'react-native';
-import Navbar from '../components/Navbar';
+import React from 'react';
+import {View, StyleSheet, FlatList} from 'react-native';
 import AddTodo from '../components/AddTodo';
 import Todo from '../components/Todo';
 
-function MainScreen() {
-  const [todos, setTodos] = useState([]);
-
-  const addTodo = title => {
-    const newTodo = {
-      id: Date.now().toString(),
-      title,
-    };
-
-    setTodos(prevTodos => [...prevTodos, newTodo]);
-  };
-
-  const deleteTodo = itemId => {
-    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== itemId));
-  };
-
+function MainScreen({todos, addTodo, deleteTodo}) {
   return (
     <View style={styles.container}>
-      <Navbar title="Todo App" />
-      <View style={styles.wrapper}>
-        <AddTodo onSubmit={addTodo} />
-        <FlatList
-          style={styles.scroll}
-          data={todos}
-          renderItem={({item}) => <Todo todo={item} deleteTodo={deleteTodo} />}
-          keyExtractor={item => item.id}
-        />
-      </View>
+      <AddTodo onSubmit={addTodo} />
+      <FlatList
+        style={styles.scroll}
+        data={todos}
+        renderItem={({item}) => <Todo todo={item} deleteTodo={deleteTodo} />}
+        keyExtractor={item => item.id}
+      />
     </View>
   );
 }
@@ -39,8 +20,6 @@ function MainScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  wrapper: {
     paddingHorizontal: 30,
     paddingVertical: 20,
   },
