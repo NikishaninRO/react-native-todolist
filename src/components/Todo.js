@@ -1,14 +1,19 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-function Todo({todo, deleteTodo}) {
+function Todo({todo, deleteTodo, openTodo}) {
   const handleLongPress = () => {
     deleteTodo(todo.id);
+  };
+
+  const handlePress = () => {
+    openTodo(todo.id);
   };
 
   return (
     <TouchableOpacity
       style={styles.todo}
+      onPress={handlePress}
       onLongPress={handleLongPress}
       delayLongPress={2000}>
       <Text>{todo.title}</Text>

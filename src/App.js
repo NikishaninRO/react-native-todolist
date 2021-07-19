@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {View, SafeAreaView, StyleSheet, Alert, Platform} from 'react-native';
 import MainScreen from './screens/MainScreen';
 import TodoScreen from './screens/TodoScreeen';
 import Navbar from './components/Navbar';
 
 function App() {
   const [todoId, setTodoId] = useState(null);
-
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([
+    {id: '1', title: 'Выучить React Native'},
+    {id: '2', title: 'Написать приложение'},
+  ]);
 
   const addTodo = title => {
     const newTodo = {
@@ -18,20 +20,65 @@ function App() {
     setTodos(prevTodos => [...prevTodos, newTodo]);
   };
 
-  const deleteTodo = itemId => {
-    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== itemId));
+  const deleteTodo = todoId => {
+    const todo = todos.find(todo => todo.id === todoId);
+    Alert.alert(
+      'Удаление элемента',
+      `Вы уверены, что хотите удалить ${todo.title}`,
+      [
+        {
+          text: 'Отмена',
+          style: 'cancel',
+        },
+        {
+          text: 'Удалить',
+          onPress: () => {
+            setTodoId(null);
+            setTodos(prev => prev.filter(todo => todo.id !== todoId));
+          },
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
+  };
+
+  const updateTodo = (id, title) => {
+    setTodos(prev =>
+      prev.map(todo => {
+        if (todo.id === id) {
+          todo.title = title;
+        }
+        return todo;
+      }),
+    );
+  };
+
+  const goBack = () => {
+    setTodoId(null);
   };
 
   let content = !todoId ? (
-    <MainScreen todos={todos} addTodo={addTodo} deleteTodo={deleteTodo} />
+    <MainScreen
+      todos={todos}
+      addTodo={addTodo}
+      deleteTodo={deleteTodo}
+      openTodo={setTodoId}
+    />
   ) : (
-    <TodoScreen />
+    <TodoScreen
+      todo={todos.find(todo => todo.id === todoId)}
+      goBack={goBack}
+      onRemove={deleteTodo}
+      onSave={updateTodo}
+    />
   );
 
   return (
     <SafeAreaView style={styles.container}>
       <Navbar title="Todo App" />
-      {content}
+      <View style={styles.wrapper}>{content}</View>
     </SafeAreaView>
   );
 }
@@ -39,6 +86,11 @@ function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  wrapper: {
+    flex: 1,
+    paddingHorizontal: 30,
+    paddingVertical: 20,
   },
 });
 
