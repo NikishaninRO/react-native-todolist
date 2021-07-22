@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
 import EditModal from '../components/EditModal';
 import AppCard from '../components/ui/Card';
@@ -7,9 +7,14 @@ import AppButton from '../components/ui/AppButton';
 import {THEME} from '../constants/theme';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import {TodoContext} from '../context/todo/todoContext';
+import {ScreenContext} from '../context/screen/screenContext';
 
-function TodoScreen({goBack, todo, onRemove, onSave}) {
+function TodoScreen() {
   const [modal, setModal] = useState(false);
+  const {todos, updateTodo, removeTodo} = useContext(TodoContext);
+  const {todoId, changeScreen} = useContext(ScreenContext);
+  const todo = todos.find(todo => todo.id === todoId);
 
   const handlePress = () => {
     setModal(true);
@@ -20,8 +25,17 @@ function TodoScreen({goBack, todo, onRemove, onSave}) {
   };
 
   const saveHandler = title => {
-    onSave(todo.id, title);
+    updateTodo(todo.id, title);
     closeModal();
+  };
+
+  const handleRemove = () => {
+    removeTodo(todo.id);
+    goBack();
+  };
+
+  const goBack = () => {
+    changeScreen(null);
   };
 
   return (
@@ -40,9 +54,7 @@ function TodoScreen({goBack, todo, onRemove, onSave}) {
             </AppButton>
           </View>
           <View style={styles.button}>
-            <AppButton
-              color={THEME.DANGER_COLOR}
-              onPress={() => onRemove(todo.id)}>
+            <AppButton color={THEME.DANGER_COLOR} onPress={handleRemove}>
               <AntDesignIcon name="delete" size={20} />
             </AppButton>
           </View>
