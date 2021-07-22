@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, Button, Alert} from 'react-native';
+import {View, StyleSheet, TextInput, Alert, Keyboard} from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 function AddTodo({onSubmit}) {
   const [value, setValue] = useState('');
@@ -8,6 +9,7 @@ function AddTodo({onSubmit}) {
     if (value.trim()) {
       onSubmit(value);
       setValue('');
+      Keyboard.dismiss();
     } else {
       Alert.alert('Название дела не может быть пустым');
     }
@@ -21,7 +23,11 @@ function AddTodo({onSubmit}) {
         onChangeText={setValue}
         value={value}
       />
-      <Button title="Добавить" onPress={pressHandler} />
+      <View>
+        <Icon.Button name="pluscircleo" onPress={pressHandler}>
+          Добавить
+        </Icon.Button>
+      </View>
     </View>
   );
 }
@@ -29,17 +35,16 @@ function AddTodo({onSubmit}) {
 const styles = StyleSheet.create({
   block: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     paddingBottom: 10,
-  },
-  button: {
-    height: 50,
+    alignItems: 'center',
   },
   input: {
     width: '70%',
     borderStyle: 'solid',
     borderBottomWidth: 2,
     borderBottomColor: '#3949ab',
+    height: '100%',
   },
 });
 

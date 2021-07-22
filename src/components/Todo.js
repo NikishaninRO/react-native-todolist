@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
+import AppText from './ui/AppText';
 
 function Todo({todo, deleteTodo, openTodo}) {
   const handleLongPress = () => {
@@ -16,7 +17,7 @@ function Todo({todo, deleteTodo, openTodo}) {
       onPress={handlePress}
       onLongPress={handleLongPress}
       delayLongPress={2000}>
-      <Text>{todo.title}</Text>
+      <AppText>{todo.title}</AppText>
     </TouchableOpacity>
   );
 }

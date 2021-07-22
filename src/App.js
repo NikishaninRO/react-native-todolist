@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {View, SafeAreaView, StyleSheet, Alert, Platform} from 'react-native';
+import {View, SafeAreaView, StyleSheet, Alert} from 'react-native';
 import MainScreen from './screens/MainScreen';
 import TodoScreen from './screens/TodoScreeen';
 import Navbar from './components/Navbar';
+import {THEME} from './constants/theme';
 
 function App() {
   const [todoId, setTodoId] = useState(null);
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-    paddingHorizontal: 30,
+    paddingHorizontal: THEME.PADDING_HORIZONTAL,
     paddingVertical: 20,
   },
 });

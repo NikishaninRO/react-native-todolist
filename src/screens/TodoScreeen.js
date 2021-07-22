@@ -1,8 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import EditModal from '../components/EditModal';
 import AppCard from '../components/ui/Card';
+import AppText from '../components/ui/AppText';
+import AppButton from '../components/ui/AppButton';
 import {THEME} from '../constants/theme';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 
 function TodoScreen({goBack, todo, onRemove, onSave}) {
   const [modal, setModal] = useState(false);
@@ -24,19 +28,23 @@ function TodoScreen({goBack, todo, onRemove, onSave}) {
     <>
       <View>
         <AppCard style={styles.card}>
-          <Text style={styles.title}>{todo.title}</Text>
-          <Button title="Ред." onPress={handlePress} />
+          <AppText style={styles.title}>{todo.title}</AppText>
+          <AppButton onPress={handlePress}>
+            <FontAwesomeIcon name="edit" size={20} />
+          </AppButton>
         </AppCard>
         <View style={styles.buttons}>
           <View style={styles.button}>
-            <Button title="Назад" color={THEME.GREY_COLOR} onPress={goBack} />
+            <AppButton color={THEME.GREY_COLOR} onPress={goBack}>
+              <AntDesignIcon name="back" size={20} />
+            </AppButton>
           </View>
           <View style={styles.button}>
-            <Button
-              title="Удалить"
+            <AppButton
               color={THEME.DANGER_COLOR}
-              onPress={() => onRemove(todo.id)}
-            />
+              onPress={() => onRemove(todo.id)}>
+              <AntDesignIcon name="delete" size={20} />
+            </AppButton>
           </View>
         </View>
       </View>
@@ -60,11 +68,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    width: '40%',
+    width: Dimensions.get('window').width / 3,
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
   },
 });
 

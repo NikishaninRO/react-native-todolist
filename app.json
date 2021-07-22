@@ -1,4 +1,5 @@
 {
   "name": "TodoList",
-  "displayName": "TodoList"
+  "displayName": "TodoList",
+  "orientation": "portrait"
 }
