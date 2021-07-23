@@ -7,13 +7,13 @@ import {ScreenContext} from './context/screen/screenContext';
 import TodoScreen from './screens/TodoScreeen';
 
 function MainLayout() {
-  const screenContext = useContext(ScreenContext);
+  const {todoId} = useContext(ScreenContext);
 
   return (
     <SafeAreaView style={styles.container}>
       <Navbar title="Todo App" />
       <View style={styles.wrapper}>
-        {!screenContext.todoId ? <MainScreen /> : <TodoScreen />}
+        {!todoId ? <MainScreen /> : <TodoScreen />}
       </View>
     </SafeAreaView>
   );
